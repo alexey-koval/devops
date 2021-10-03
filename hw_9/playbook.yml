@@ -26,6 +26,7 @@
       dest: /home/ubuntu/
 
   - name: Build java app
+    -
 
 
 
