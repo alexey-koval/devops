@@ -26,7 +26,25 @@
       dest: /home/ubuntu/
 
   - name: Build java app
-    -
+    shell:
+      name: mvp package
+
+- name: Production
+  hosts: bd
+  become: yes
+
+  tasks:
+  - name: Ensure tomcat is present
+    apt:
+      name: tomcat
+      state: present
+
+  - name: Copy appweb to Prod server
+    copy:
+      src: /home/ubuntu/boxfuse-sample-java-war-hello/hello-1.0.war
+      dest: /usr/local/tomcat/webapps/
+
+  - name: Run app
 
 
 
