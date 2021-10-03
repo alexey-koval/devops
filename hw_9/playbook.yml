@@ -1,1 +1,32 @@
 ---
+- name: install BuildServer
+  hosts: web
+  become: yes
+
+  tasks:
+
+  - name: Ensure maven package is present
+    apt:
+      name: maven
+      state: present
+
+  - name: Ensure git package is present
+    apt:
+      name: git
+      state: present
+
+  - name: Ensure default-jdk is present
+    apt:
+      name: default-jdk
+      state: present
+
+  - name: Clone github repo
+    anisble.builtin.git:
+      repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello
+      dest: /home/ubuntu/
+
+  - name: Build java app
+
+
+
+
