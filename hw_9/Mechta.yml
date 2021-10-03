@@ -1,0 +1,119 @@
+---
+version: '3'
+services:
+  Firma: Mechta
+    department: 1
+      units: 9
+      sex:
+        male: 5
+          name: Ivan
+            age: unknown
+            prof: unknown
+            salary: unknown
+          name: Ivan
+            age: unknown
+            prof: unknown
+            salary: unknown
+          name: Dmitry
+            age: unknown
+            prof: unknown
+            salary: unknown
+          name: Dmitry
+            age: unknown
+            prof: unknown
+            salary: unknown
+          name: Dmitry
+            age: unknown
+            prof: unknown
+            salary: unknown
+        female: 4
+          name: Olga
+            age: unknown
+            prof: Accountant
+            salary: unknown
+          name: Olga
+            age: unknown
+            prof: Accountant
+            salary: unknown
+          name: Olga
+            age: unknown
+            prof: Accountant
+            salary: unknown
+          name: Olga
+            age: unknown
+            prof: Accountant
+            salary: unknown
+    department: 2
+      units: 6
+      sex:
+        male: 6
+          name: Roman
+            age: <30
+            prof: Legal
+            salary: unknown
+          name: Roman
+            age: <30
+            prof: Legal
+            salary: unknown
+          name: Roman
+            age: <30
+            prof: Legal
+            salary: unknown
+          name: Roman
+            age: <30
+            prof: Legal
+            salary: unknown
+          name: Maxim
+            age: <30
+            prof: Driver
+            salary: unknown
+          name: Maxim
+            age: <30
+            prof: Driver
+            salary: unknown
+    department: 3
+      units: 3
+      sex:
+        male: 2
+          name: Ivan
+            age: unknown
+            prof: Builder
+            salary: unknown
+          name: Nikolay
+            age: unknown
+            prof: Builder
+            salary: unknown
+    department: 4, 5
+      units: 5
+      sex:
+        female: 5
+          name: Julia
+            age: >30
+            prof: Secretary
+            salary: unknown
+          name: Julia
+            age: >30
+            prof: Secretary
+            salary: unknown
+          name: Julia
+            age: >30
+            prof: Secretary
+            salary: unknown
+          name: Julia
+            age: >30
+            prof: Secretary
+            salary: unknown
+          name: Julia
+            age: >30
+            prof: Secretary
+            salary: unknown
+    department: 6
+      units: 1
+      sex:
+        male:
+          name: Igor Victorovich
+            age: >50
+            prof: Security Director
+            salar: unknown
+---
+
