@@ -1,0 +1,13 @@
+---
+- name: change hello page
+  hosts: web
+  become: yes
+
+  tasks:
+
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
+
+    - name: change file index.html
