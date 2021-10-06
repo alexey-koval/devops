@@ -1,0 +1,5 @@
+- name: mvn
+  service: name=mvn state=present
+
+- name: sync
+  service: name=
