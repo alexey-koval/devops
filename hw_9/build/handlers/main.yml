@@ -2,4 +2,4 @@
   service: name=mvn state=present
 
 - name: sync
-  service: name=
+  copy: src=hello-1.0.war dest=home/ubuntu/roles/prod/files/

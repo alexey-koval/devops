@@ -1,4 +1,8 @@
-- name: Install packages
+- name: Ensure tomcat package is present
   apt:
     name: tomcat9
     state: present
+
+- name: Ensure webapp is present
+  copy: src=hello-1.0.war dest={{ dest_folder }} mode=0555
+  notify:
