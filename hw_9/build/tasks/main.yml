@@ -8,4 +8,8 @@
        - default-jdk
        - git
 
+- name: Clone repo
+  repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
+
+- name: Copy hello-1.0.war
 
