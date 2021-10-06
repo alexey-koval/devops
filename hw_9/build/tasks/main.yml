@@ -7,9 +7,11 @@
        - git
 
 - name: Clone repo
-  repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
+  git:
+    repo: 'https://github.com/boxfuse/boxfuse-sample-java-war-hello.git'
+    dest: /tmp/
 
-- name: build app
-  command: mvn package
-
+- name: build artifact
+  command: mvn -f /tmp/pom.xml package
+  become: yes
 
