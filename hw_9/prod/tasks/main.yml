@@ -4,6 +4,6 @@
     state: present
 
 - name: Ensure webapp is present
-  copy: src=hello-1.0.war dest={{ dest_folder }} mode=0555
+  copy: src={{ source_folder }}/hello-1.0.war dest={{ dest_folder }}/hello-1.0.war mode=0555
   notify:
     - restart tomcat
