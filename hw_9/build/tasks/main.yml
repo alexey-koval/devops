@@ -15,4 +15,4 @@
   become: yes
 
 - name: Ensure WAR is present
-  template: src={{ source_folder }}/hello-1.0.war dest={{ dest_folder }}/hello-1.0.war mode=0555
+  fetch: src={{ source_folder }}/hello-1.0.war dest={{ dest_folder }}/hello-1.0.war mode=0555

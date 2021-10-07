@@ -1,1 +1,2 @@
-dest_folder: /usr/local/tomcat/webapps/
+source_folder: /tmp/app/
+dest_folder: /usr/local/tomcat9/webapps/
