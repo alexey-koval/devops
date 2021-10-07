@@ -15,4 +15,4 @@
   become: yes
 
 - name: Ensure WAR is present
-  template: src=/tmp/app/target/hello-1.0.war dest=root@18.194.174.116/tmp/app mode=0555
+  template: src={{ source_folder }}/hello-1.0.war dest={{ dest_folder }}/hello-1.0.war mode=0555
