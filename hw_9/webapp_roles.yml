@@ -1,0 +1,14 @@
+---
+- name: web configuration
+  hosts: web
+  become: yes
+
+  roles:
+    - build
+
+- name: db configuration
+  hosts: db
+  become: yes
+
+  roles:
+    - prod

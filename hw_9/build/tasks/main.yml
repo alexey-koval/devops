@@ -1,15 +1,18 @@
 - name: Install packages
-  apt:
-    name: {{item}}
-    state: present
+  apt: name={{ item }} state=present
   with_items:
-       - update_cache
        - maven
        - default-jdk
        - git
 
 - name: Clone repo
-  repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
+  git:
+    repo: 'https://github.com/boxfuse/boxfuse-sample-java-war-hello.git'
+    dest: /tmp/app/
 
-- name: Copy hello-1.0.war
+- name: build artifact
+  command: mvn -f /tmp/pom.xml package
+  become: yes
 
+- name: Ensure WAR is present
+  template: src=/tmp/app/target/hello-1.0.war dest=root@18.194.174.116/tmp/app mode=0555
