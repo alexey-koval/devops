@@ -1,7 +1,7 @@
 pipeline {
     agent {
         any {
-            image 'kovalalexey/assembly'
+            image 'kovalalexey/build_agent'
             args '-v /tmp:/tmp'
         }
     }
