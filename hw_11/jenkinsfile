@@ -1,7 +1,7 @@
 pipeline {
     agent {
-        docker {
-            image 'kovalalexey/assembly'
+        any {
+            image 'kovalalexey/build_agent'
             args '-v /tmp:/tmp'
         }
     }
@@ -12,26 +12,22 @@ pipeline {
                 git 'https://github.com/alexey-koval/boxfuse-origin.git'
             }
         }
-
         stage ('make war file') {
             steps {
                 sh 'mvn package'
             }
         }
-
         stage ('build image') {
             steps {
-                sh 'docker build --tag boxfuseapp .'
+                sh 'docker build -t boxfuseapp .'
             }
         }
-
-        stage ('push run images') {
+        stage ('push images') {
             steps {
                 sh 'docker tag boxfuseapp alexeykoval/boxfuseapp'
                 sh 'docker push alexeykoval/boxfuseapp'
             }
         }
-
         stage ('run app') {
             steps {
                 sh 'docker pull alexeykoval/boxfuseapp'
