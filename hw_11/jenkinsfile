@@ -1,7 +1,7 @@
 pipeline {
     agent {
-        any {
-            image 'tomcat9'
+        docker {
+            image 'kovalalexey/assembly'
             args '-v /tmp:/tmp'
         }
     }
