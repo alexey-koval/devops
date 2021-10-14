@@ -25,7 +25,7 @@ pipeline {
             }
         }
 
-        stage ('push run images') {
+        stage ('push images') {
             steps {
                 sh 'docker tag boxfuseapp alexeykoval/boxfuseapp'
                 sh 'docker push alexeykoval/boxfuseapp'
