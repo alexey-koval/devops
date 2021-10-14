@@ -21,7 +21,7 @@ pipeline {
 
         stage ('build image') {
             steps {
-                sh 'docker build --tag boxfuseapp .'
+                sh 'docker build -t boxfuseapp .'
             }
         }
 
