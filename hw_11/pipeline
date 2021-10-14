@@ -4,18 +4,21 @@ pipeline {
     stages {
         stage ('git clone') {
             steps {
+                sh 'cd /home/ubuntu/'
                 git 'https://github.com/alexey-koval/Dockerfile_boxfuse.git'
             }
         }
         stage ('docker image') {
             steps {
-                docker build -t boxfuseapp .
+                sh 'cd /homee/ubuntu/'
+                sh 'docker build -t boxfuseapp .'
             }
         }
         stage ('docker image pull') {
             steps {
-                docker tag boxfuseapp kovalalexey/boxfuseapp
-                docker push kovalalexey/boxfuseapp
+                sh 'cd /home/ubuntu/'
+                sh 'docker tag boxfuseapp kovalalexey/boxfuseapp'
+                sh 'docker push kovalalexey/boxfuseapp'
             }
         }
     }
