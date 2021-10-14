@@ -1,0 +1,42 @@
+pipeline {
+    agent {
+        docker {
+            image 'tomcat9'
+            args '-v /var/run/docker.sock:/var/run/docker.sock -u root'
+        }
+    }
+
+    stages {
+        stage ('git clone') {
+            steps {
+                git 'https://github.com/alexey-koval/boxfuse-origin.git'
+            }
+        }
+
+        stage ('make war file') {
+            steps {
+                sh 'mvn package'
+            }
+        }
+
+        stage ('build image') {
+            steps {
+                sh 'docker build --tag boxfuseapp .'
+            }
+        }
+
+        stage ('push run images') {
+            steps {
+                sh 'docker tag boxfuseapp alexeykoval/boxfuseapp'
+                sh 'docker push alexeykoval/boxfuseapp'
+            }
+        }
+
+        stage ('run app') {
+            steps {
+                sh 'docker pull alexeykoval/boxfuseapp'
+                sh 'docker run -d -p 8080:8080 alexeykoval/boxfuseapp'
+            }
+        }
+    }
+}
