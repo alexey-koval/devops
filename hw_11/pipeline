@@ -1,0 +1,22 @@
+pipeline {
+    agent any
+
+    stages {
+        stage ('git clone') {
+            steps {
+                git 'https://github.com/alexey-koval/Dockerfile_boxfuse.git'
+            }
+        }
+        stage ('docker image') {
+            steps {
+                docker build -t boxfuseapp .
+            }
+        }
+        stage ('docker image pull') {
+            steps {
+                docker tag boxfuseapp kovalalexey/boxfuseapp
+                docker push kovalalexey/boxfuseapp
+            }
+        }
+    }
+}
