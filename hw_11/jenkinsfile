@@ -12,26 +12,22 @@ pipeline {
                 git 'https://github.com/alexey-koval/boxfuse-origin.git'
             }
         }
-
         stage ('make war file') {
             steps {
                 sh 'mvn package'
             }
         }
-
         stage ('build image') {
             steps {
                 sh 'docker build -t boxfuseapp .'
             }
         }
-
         stage ('push images') {
             steps {
                 sh 'docker tag boxfuseapp alexeykoval/boxfuseapp'
                 sh 'docker push alexeykoval/boxfuseapp'
             }
         }
-
         stage ('run app') {
             steps {
                 sh 'docker pull alexeykoval/boxfuseapp'
