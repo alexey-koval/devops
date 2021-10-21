@@ -1,0 +1,63 @@
+---
+- amazon.aws.ec2: Install BuildServer
+  hosts: buildserver
+  become: yes
+  key_name: mykey
+  image: ami-09e8a19c9eda495b3
+  instance_type: t2.micro
+  count: 1
+
+  tasks:
+      - name: Ensure maven package is present
+        apt:
+            name: maven
+            state: present
+
+      - name: Ensure git package is present
+        apt:
+            name: git
+            state: present
+
+      - name: Ensure default-jdk
+        apt:
+            name: default-jdk
+            state: present
+
+      - name: Clone github repo
+        anisble.builtin.git:
+            repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello
+            dest: /home/ubuntu/
+
+      - name: Build java app
+        shell:
+            name: mvp package
+
+      - name: Push Artifact
+        amazon.aws.aws_s3:
+            bucket: mybucket
+            object: /home/ubuntu/boxfuse-sample-java-war-hello/hello-1.0.war
+            mode: put
+
+- amazon.aws.ec2: Install Production
+  hosts: Production
+  become: yes
+  key_name: mykey
+  image: ami-09e8a19c9eda495b3
+  instance_type: t2.micro
+  count: 1
+
+  tasks:
+      - name: Ensure tomcat is present
+        apt:
+            name: tomcat
+            state: present
+
+      - name: Pull Artifact
+        amazon.aws.aws_s3:
+            bucket: mybucket
+            object: hello-1.0.war
+            dest: /usr/local/tomcat/webapps/
+            mode: get
+
+      - name: Run app
+
