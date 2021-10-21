@@ -4,6 +4,7 @@
   become: yes
   key_name: mykey
   image: ami-09e8a19c9eda495b3
+  security-groups: MSG
   instance_type: t2.micro
   count: 1
 
@@ -43,6 +44,7 @@
   become: yes
   key_name: mykey
   image: ami-09e8a19c9eda495b3
+  security-groups: MSG
   instance_type: t2.micro
   count: 1
 
