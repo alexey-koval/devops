@@ -23,7 +23,8 @@ resource "aws_instance" "BuildServer" {
               "apt install git",
               "cd /home/ubuntu/", "git clone https://github.com/alexey-koval/boxfuse-origin",
               "cd /home/ubuntu/boxfuse-origin/",
-              "mvn package"]
+              "mvn package"
+    ]
   }
   provisioner "file" {
     source = "/home/ubuntu/boxfuse-origin/target/*.war"
@@ -37,7 +38,7 @@ resource "aws_instance" "Production" {
   instance_type = "t2.micro"
   availability_zone = "var.availability_zone"
   provisioner "remote-exec" {
-    inline = ["apt update", "apt install tomcat9",
+    inline = ["apt update", "apt install tomcat9"
     ]
 }
   provisioner "file" {
