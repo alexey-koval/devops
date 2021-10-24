@@ -21,8 +21,7 @@ resource "aws_instance" "BuildServer" {
     inline = ["apt update", "apt install maven",
               "apt install default-jdk",
               "apt install git",
-              "cd /home/ubuntu/"
-              "git clone https://github.com/alexey-koval/boxfuse-origin",
+              "cd /home/ubuntu/", "git clone https://github.com/alexey-koval/boxfuse-origin",
               "cd /home/ubuntu/boxfuse-origin/",
               "mvn package"]
   }
