@@ -22,7 +22,7 @@ resource "aws_instance" "BuildServer" {
   subnet_id = "subnet-e96ebeb6"
   user_data = <<EOF
           #!/bin/bash
-          sudo apt update && sudo apt install -y maven default-jdk git
+          sudo apt update && sudo apt install -y maven default-jdk git awscli
           git clone https://github.com/alexey-koval/boxfuse-origin /home/ubuntu/
           cd /home/ubuntu/boxfuse-origin/
           mvn package
@@ -46,6 +46,7 @@ resource "aws_instance" "Production" {
           #!/bin/bash
           sudo apt update
           sudo apt install tomcat -y
+          sudo apt install awscli -y
           EOF
   provisioner "remote-exec" {
     inline = ["export AWS_ACCESS_KEY_ID=<...placeholder...>", "export AWS_SECRET_ACCESS_KEY=<...placeholder...>",
