@@ -18,8 +18,9 @@ resource "aws_key_pair" "devops" {
 }
 
 resource "aws_instance" "TEST" {
-  ami           = ami-05f7491af5eef733a
+  ami = "ami-05f7491af5eef733a"
   instance_type = "t2.micro"
   key_name = "devops"
   security_groups = ["MSG"]
   subnet_id = "subnet-694bd825"
+}
