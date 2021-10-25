@@ -42,7 +42,7 @@ resource "aws_instance" "Production" {
   security_groups = ["MSG"]
   availability_zone = "var.availability_zone"
   provisioner "remote-exec" {
-    inline = ["apt update", "apt install tomcat9"
+    inline = ["apt update", "apt install tomcat"
     ]
 }
   provisioner "remote-exec" {
