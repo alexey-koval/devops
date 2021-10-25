@@ -10,7 +10,6 @@ terraform {
 
 provider "aws" {
  region = "eu-central-1"
-  profile = "default"
 }
 resource "aws_key_pair" "mykeys" {
   key_name   = "mykeys"
@@ -22,7 +21,7 @@ resource "aws_instance" "BuildServer" {
   instance_type = "t2.micro"
   key_name = "mykeys"
   security_groups = ["MSG"]
-  subnet_id = "subnet-e96ebeb6"
+  subnet_id = "subnet-694bd825"
   user_data = <<EOF
           #!/bin/bash
           sudo apt update && sudo apt install -y maven default-jdk git awscli
@@ -44,7 +43,7 @@ resource "aws_instance" "Production" {
   instance_type = "t2.micro"
   key_name = "mykeys"
   security_groups = ["MSG"]
-  subnet_id = "subnet-e96ebeb6"
+  subnet_id = "subnet-694bd825"
   user_data = <<EOF
           #!/bin/bash
           sudo apt update
