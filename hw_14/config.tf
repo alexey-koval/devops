@@ -17,10 +17,11 @@ provider "aws" {
 resource "aws_instance" "BuildServer" {
   ami = ami-05f7491af5eef733a
   instance_type = "t2.micro"
+  key_name = "mykeys"
   security_groups = ["MSG"]
-  availability_zone = "var.availability_zone"
+  subnet_id = "subnet-e96ebeb6"
   provisioner "remote-exec" {
-    inline = ["apt update && apt install -y maven default-jdk git",
+    inline = ["sudo apt update && sudo apt install -y maven default-jdk git",
               "git clone https://github.com/alexey-koval/boxfuse-origin /home/ubuntu/",
               "cd /home/ubuntu/boxfuse-origin/",
               "mvn package"
@@ -38,8 +39,9 @@ resource "aws_instance" "BuildServer" {
 resource "aws_instance" "Production" {
   ami = ami-05f7491af5eef733a
   instance_type = "t2.micro"
+  key_name = "mykeys"
   security_groups = ["MSG"]
-  availability_zone = "var.availability_zone"
+  subnet_id = "subnet-e96ebeb6"
   provisioner "remote-exec" {
     inline = ["apt update", "apt install tomcat"
     ]
@@ -48,6 +50,7 @@ resource "aws_instance" "Production" {
     inline = ["export AWS_ACCESS_KEY_ID=<...placeholder...>", "export AWS_SECRET_ACCESS_KEY=<...placeholder...>",
               "export AWS_DEFAULT_REGION=us-east-1",
               "aws s3 cp s3://mybucket.test.com/hello.war /usr/local/tomcat/webapps/hello.war"
+              "sudo systemctl restart tomcat9"
     ]
   }
 }
