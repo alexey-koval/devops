@@ -20,20 +20,20 @@ resource "aws_instance" "BuildServer" {
   key_name = "mykeys"
   security_groups = ["MSG"]
   subnet_id = "subnet-e96ebeb6"
-  provisioner "remote-exec" {
-    inline = ["sudo apt update && sudo apt install -y maven default-jdk git",
-              "git clone https://github.com/alexey-koval/boxfuse-origin /home/ubuntu/",
-              "cd /home/ubuntu/boxfuse-origin/",
-              "mvn package"
-    ]
-  }
+  user_data = <<EOF
+          #!/bin/bash
+          sudo apt update && sudo apt install -y maven default-jdk git
+          git clone https://github.com/alexey-koval/boxfuse-origin /home/ubuntu/
+          cd /home/ubuntu/boxfuse-origin/
+          mvn package
+          EOF
   provisioner "remote-exec" {
     inline = ["export AWS_ACCESS_KEY_ID=<...placeholder...>", "export AWS_SECRET_ACCESS_KEY=<...placeholder...>",
               "export AWS_DEFAULT_REGION=us-east-1",
               "aws s3 cp home/ubuntu/boxfuse-origin/target/*.war s3://mybucket.test.com/hello.war"
-    ]
-}
-  }
+             ]
+        }
+    }
 
 #AWS Instance Production
 resource "aws_instance" "Production" {
@@ -42,15 +42,16 @@ resource "aws_instance" "Production" {
   key_name = "mykeys"
   security_groups = ["MSG"]
   subnet_id = "subnet-e96ebeb6"
-  provisioner "remote-exec" {
-    inline = ["apt update", "apt install tomcat"
-    ]
-}
+  user_data = <<EOF
+          #!/bin/bash
+          sudo apt update
+          sudo apt install tomcat -y
+          EOF
   provisioner "remote-exec" {
     inline = ["export AWS_ACCESS_KEY_ID=<...placeholder...>", "export AWS_SECRET_ACCESS_KEY=<...placeholder...>",
               "export AWS_DEFAULT_REGION=us-east-1",
               "aws s3 cp s3://mybucket.test.com/hello.war /usr/local/tomcat/webapps/hello.war",
               "sudo systemctl restart tomcat9"
-    ]
+             ]
   }
 }
