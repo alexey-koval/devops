@@ -12,7 +12,10 @@ provider "aws" {
  region = "eu-central-1"
   profile = "default"
 }
-
+resource "aws_key_pair" "mykeys" {
+  key_name   = "mykeys"
+  public_key = "ssh-rsa <<<>>>"
+}
 #AWS Instance BuildServer
 resource "aws_instance" "BuildServer" {
   ami = ami-05f7491af5eef733a
