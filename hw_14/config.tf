@@ -47,8 +47,7 @@ resource "aws_instance" "Production" {
   provisioner "remote-exec" {
     inline = ["export AWS_ACCESS_KEY_ID=<...placeholder...>", "export AWS_SECRET_ACCESS_KEY=<...placeholder...>",
               "export AWS_DEFAULT_REGION=us-east-1",
-              "cd /usr/local/tomcat/webapps/",
-              "aws s3 cp s3://mybucket.test.com/hello.war hello.war"
+              "aws s3 cp s3://mybucket.test.com/hello.war /usr/local/tomcat/webapps/hello.war"
     ]
   }
 }
