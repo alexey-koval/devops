@@ -10,25 +10,28 @@ terraform {
 
 provider "aws" {
  region = "eu-central-1"
+  profile = "default"
 }
 
 #AWS Instance BuildServer
 resource "aws_instance" "BuildServer" {
   ami = ami-05f7491af5eef733a
   instance_type = "t2.micro"
+  security_groups = ["MSG"]
   availability_zone = "var.availability_zone"
   provisioner "remote-exec" {
     inline = ["apt update", "apt install maven",
               "apt install default-jdk",
               "apt install git",
-              "cd /home/ubuntu/", "git clone https://github.com/alexey-koval/boxfuse-origin",
+              "git clone https://github.com/alexey-koval/boxfuse-origin /home/ubuntu/",
               "cd /home/ubuntu/boxfuse-origin/",
               "mvn package"
     ]
   }
-  provisioner "file" {
-    source = "/home/ubuntu/boxfuse-origin/target/*.war"
-    destination = "s3:mybucket.test.com/hello.war"
+  provisioner "remote-exec" {
+    inline = ["apt install awscli",
+              "aws s3 cp home/ubuntu/boxfuse-origin/target/*.war s3://mybucket.test.com/hello.war"
+    ]
 }
   }
 
@@ -36,13 +39,15 @@ resource "aws_instance" "BuildServer" {
 resource "aws_instance" "Production" {
   ami = ami-05f7491af5eef733a
   instance_type = "t2.micro"
+  security_groups = ["MSG"]
   availability_zone = "var.availability_zone"
   provisioner "remote-exec" {
     inline = ["apt update", "apt install tomcat9"
     ]
 }
-  provisioner "file" {
-    source = "s3:mybucket.test.com/hello.war"
-    destination = "/usr/local/tomcat/webapps/"
+  provisioner "remote-exec" {
+    inline = ["apt install awscli", "cd /usr/local/tomcat/webapps/",
+              "aws s3 cp s3://mybucket.test.com/hello.war hello.war"
+    ]
   }
 }
