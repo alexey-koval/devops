@@ -10,25 +10,28 @@ terraform {
 
 provider "aws" {
  region = "eu-central-1"
+  profile = "default"
 }
 
 #AWS Instance BuildServer
 resource "aws_instance" "BuildServer" {
   ami = ami-05f7491af5eef733a
   instance_type = "t2.micro"
-  availability_zone = "var.availability_zone"
+  key_name = "mykeys"
+  security_groups = ["MSG"]
+  subnet_id = "subnet-e96ebeb6"
   provisioner "remote-exec" {
-    inline = ["apt update", "apt install maven",
-              "apt install default-jdk",
-              "apt install git",
-              "cd /home/ubuntu/", "git clone https://github.com/alexey-koval/boxfuse-origin",
+    inline = ["sudo apt update && sudo apt install -y maven default-jdk git",
+              "git clone https://github.com/alexey-koval/boxfuse-origin /home/ubuntu/",
               "cd /home/ubuntu/boxfuse-origin/",
               "mvn package"
     ]
   }
-  provisioner "file" {
-    source = "/home/ubuntu/boxfuse-origin/target/*.war"
-    destination = "s3:mybucket.test.com/hello.war"
+  provisioner "remote-exec" {
+    inline = ["export AWS_ACCESS_KEY_ID=<...placeholder...>", "export AWS_SECRET_ACCESS_KEY=<...placeholder...>",
+              "export AWS_DEFAULT_REGION=us-east-1",
+              "aws s3 cp home/ubuntu/boxfuse-origin/target/*.war s3://mybucket.test.com/hello.war"
+    ]
 }
   }
 
@@ -36,13 +39,18 @@ resource "aws_instance" "BuildServer" {
 resource "aws_instance" "Production" {
   ami = ami-05f7491af5eef733a
   instance_type = "t2.micro"
-  availability_zone = "var.availability_zone"
+  key_name = "mykeys"
+  security_groups = ["MSG"]
+  subnet_id = "subnet-e96ebeb6"
   provisioner "remote-exec" {
-    inline = ["apt update", "apt install tomcat9"
+    inline = ["apt update", "apt install tomcat"
     ]
 }
-  provisioner "file" {
-    source = "s3:mybucket.test.com/hello.war"
-    destination = "/usr/local/tomcat/webapps/"
+  provisioner "remote-exec" {
+    inline = ["export AWS_ACCESS_KEY_ID=<...placeholder...>", "export AWS_SECRET_ACCESS_KEY=<...placeholder...>",
+              "export AWS_DEFAULT_REGION=us-east-1",
+              "aws s3 cp s3://mybucket.test.com/hello.war /usr/local/tomcat/webapps/hello.war",
+              "sudo systemctl restart tomcat9"
+    ]
   }
 }
